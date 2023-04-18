@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Login.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="Box">
+        <h3>Sign In</h3>
+        <div class="Inputs">
+          <form action="/login" method="post" id="loginForm">
+          <input class="User" id="UserEnter" type="text" placeholder="Username"></input>
+          <br></br>
+          <input class="Pass" id="PassEnter"  placeholder="Password"></input>
+          <br></br>
+          <button type="submit" id="SignIn" class="SignIn">
+            Sign In
+          </button>
+          </form>
+        </div>
+      </div>
+
+      <script>
+        //Add Event Listener
+       document.getElementById("loginForm").addEventListener('submit', async (event) => {
+        event.preventDefault();
+        //Get Input Values From Dom
+        const username = document.getElementById("UserEnter").value;
+        const password = document.getElementById("PassEnter").value;
+        
+       //Send Login Data To Server
+        const response = await fetch('/login', {
+          method: "POST",
+          headers: {'Content-Type': "application/json"},
+          body: JSON.stringify({ username, password }),
+        });
+
+       //Handle Server Response
+        const data = await response.json();
+        console.log(response);
+
+        if(response.ok){
+          window.location.href = "/home"
+        }
+      });
+      </script>
+
+</body>
+</html>

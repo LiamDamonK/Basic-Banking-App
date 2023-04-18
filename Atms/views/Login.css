@@ -1,0 +1,55 @@
+body {
+  background-color: #2a2a72;
+  background-image: linear-gradient(315deg, #2a2a72 0%, #009ffd 74%);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+.User {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  width: 250px;
+  border-bottom: 1px solid black;
+  margin-top: 10px;
+}
+
+.Box {
+  background-color: white;
+  padding-top: 10px;
+  border-radius: 10px;
+  text-align: center;
+  position: fixed;
+  height: 350px;
+  width: 350px;
+  left: 50%;
+  top: 20%;
+  transform: translate(-50%, -50%);
+}
+
+.Inputs {
+  position: fixed;
+  padding-top: 10px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.Pass {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  width: 250px;
+  border-bottom: 1px solid black;
+  margin-top: 10px;
+}
+
+.SignIn {
+  margin-top: 40px;
+  width: 250px;
+  height: 20px;
+  background-color: #2a2a72;
+  background-image: linear-gradient(315deg, #2a2a72 0%, #009ffd 74%);
+  border-radius: 10px;
+  border: none;
+}

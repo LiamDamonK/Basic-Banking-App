@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="home.css">
+    <title>Document</title>
+</head>
+<body>
+    <div id="Parent-Welcome">
+    <div id="Welcome">
+    <h1 id="UserName">Welcome Back "name"</h1>
+    <button id="LogOut">Logout</button>
+    </div>
+    </div>
+
+    <div id="Balances">
+    <h2 id="AvalibleBalance">Youre Avalible Balance Is:</h2>
+    <h2 id="Balance">Balance</h2>
+    </div>
+    
+    <div id="Paying">
+    <input id="PayAmount" type="text" placeholder="Enter Amount To Pay">
+    <button id="Pay">Pay</button>
+    </div>
+    
+    
+    
+    <div id="PDFgen">
+    <button id="generate-pdf-btn">Generate Balance PDF</button>
+    </div>
+    
+
+
+<script>
+   var data
+   //Code to Feth the username of the Account Holder
+   window.addEventListener("load", async (event) => {
+   const response = await fetch('/name', {
+        method: "POST"
+    })
+    data = await response.json();
+   var User = document.getElementById("UserName").innerHTML = "Welcome Back " + data.name;
+   }) 
+
+//Code To Load Orginal Balance of Account
+  window.addEventListener("load", async (event) => {
+   const response = await fetch('/balance', {
+        method: "POST"
+    })
+    const balance = await response.json();
+  var balanceElement = document.getElementById("Balance");
+  balanceElement.innerHTML = "R"+balance.balance; // Update the innerHTML with the retrieved balance value
+   }) 
+   
+//Code To Update The Balance When Paying An Amount
+ document.getElementById("Pay").addEventListener("click", async (event) => {
+    const amount = document.getElementById("PayAmount").value;
+    const response = await fetch ("/pay", {
+        method: "POST",
+        body: JSON.stringify({amount}),
+        headers: {"Content-Type": "application/json"}
+
+    })
+    const NewAmount = await response.json();
+    location.reload()
+    
+ })
+
+//Code To Load Login Page When Loging Out
+ document.getElementById("LogOut").addEventListener('click', async (event) => {
+    const response = await fetch('/logout' , 
+    {
+        method: "POST"
+    })
+    if(response.ok){
+        window.location.href = "/login"
+    }
+
+})
+
+//Code To Generate PDF
+// Add an event listener to the button
+    document.getElementById('generate-pdf-btn').addEventListener('click', function() {
+      generatePDF(); // Call the generatePDF() function when the button is clicked
+    });
+    
+    // Function to generate PDF on button click
+    function generatePDF() {
+      // Make a POST request to the server to generate the PDF
+      fetch('/generate-pdf', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+       })
+      
+      .then(response => response.blob())
+      .then(blob => {
+        // Create a download link for the generated PDF
+        const downloadLink = document.createElement('a');
+        downloadLink.href = URL.createObjectURL(blob);
+        downloadLink.download = 'welcome_letter.pdf';
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+        URL.revokeObjectURL(downloadLink.href);
+      })
+      .catch(error => {
+        console.error('Error generating PDF:', error);
+      });
+    }
+</script>
+</body>
+</html>
